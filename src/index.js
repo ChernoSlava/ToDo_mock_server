@@ -2,6 +2,8 @@ const express = require('express');
 const faker = require('faker');
 const app = express();
 
+const utils = require('./utils');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,6 +16,7 @@ let list = [
 ]
 
 app.get('/api/v1/todo', async (req, res) => {
+  await utils.sleep(2000)
   res.status(200);
 
   res.json({
@@ -22,6 +25,7 @@ app.get('/api/v1/todo', async (req, res) => {
 });
 
 app.post('/api/v1/todo', async (req, res) => {
+  await utils.sleep(2000)
   res.status(200);
 
   const item = {
@@ -53,6 +57,19 @@ app.patch('/api/v1/todo/finish', async (req, res) => {
   list = list.map(x => ({
     ...x,
     isFinish: x.id === req.body.id ? true : x.isFinish
+  }));
+
+  res.json({
+    list
+  })
+});
+
+app.patch('/api/v1/todo/revert', async (req, res) => {
+  res.status(200);
+
+  list = list.map(x => ({
+    ...x,
+    isFinish: x.id !== req.body.id ? true : x.isFinish
   }));
 
   res.json({
