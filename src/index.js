@@ -31,13 +31,26 @@ app.post('/api/v1/todo', async (req, res) => {
   const item = {
     id: faker.datatype.number(),
     title: req.body.title,
-    isFinish: false, 
+    isFinish: false,
   }
 
   list.push(item);
 
   res.json({
     ...item
+  })
+});
+
+app.patch('/api/v1/todo/edit', async (req, res) => {
+  res.status(200);
+
+  list = list.map(x => ({
+    ...x,
+    title: x.id === req.body.id ? req.body.title : x.title
+  }));
+
+  res.json({
+    list
   })
 });
 
@@ -69,7 +82,7 @@ app.patch('/api/v1/todo/revert', async (req, res) => {
 
   list = list.map(x => ({
     ...x,
-    isFinish: x.id !== req.body.id ? true : x.isFinish
+    isFinish: x.id === req.body.id ? false : x.isFinish
   }));
 
   res.json({
