@@ -16,7 +16,7 @@ let list = [
 ]
 
 app.get('/api/v1/todo', async (req, res) => {
-  await utils.sleep(2000)
+  await utils.sleep(500)
   res.status(200);
 
   res.json({
@@ -25,7 +25,7 @@ app.get('/api/v1/todo', async (req, res) => {
 });
 
 app.post('/api/v1/todo', async (req, res) => {
-  await utils.sleep(2000)
+  await utils.sleep(500)
   res.status(200);
 
   const item = {
